@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{#    {% if perms.ticket_manager.edit_ticket %}#}
+        <form method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Save changes</button>
+        </form>
+{#    {% endif %}#}
+{% endblock %}

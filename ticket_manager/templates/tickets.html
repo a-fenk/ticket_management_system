@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>Tickets:</h2>
+    <ul>
+        {% for ticket in tickets %}
+        <li>
+            <a href="//{{ request.META.HTTP_HOST }}/tickets/id={{ ticket.id }}">
+                <button><p>
+                    status: {{ticket.status.value}} <br>
+                    description: {{ticket.description}} <br>
+                    worker: {{ ticket.worker }} <br>
+                </p></button>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% if perms.ticket_manager.add_ticket %}
+        <a href="//{{ request.META.HTTP_HOST }}/tickets/add">
+            <button><p>+ New Ticket</p></button>
+        </a><br>
+    {% endif %}
+
+{% endblock %}

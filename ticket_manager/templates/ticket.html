@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h2>{{ticket.description}}: {{ticket.status.value}}</h2>
+
+    {% if perms.ticket_manager.change_ticket and ticket.status.value == 'open' %}
+        <a href="//{{ request.META.HTTP_HOST }}/tickets/id={{ ticket.id }}/edit">
+            <button><p>Edit ticket</p></button>
+        </a>
+    {% endif %}
+
+    <p>
+        <b>status:</b> {{ticket.status.value}} <br>
+        <b>worker:</b> {{ ticket.worker }} <br>
+        <b>description:</b> {{ticket.description}} <br>
+        <b>detais:</b> {{ ticket.details }}
+    </p>
+
+    {% if ticket.status.value == 'open' %}
+        {% if perms.ticket_manager.add_comment %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Post</button>
+            </form>
+        {% endif %}
+    {% else %}
+        <b>comment:</b> {{ comment.content }}<br>
+    {% endif %}
+
+    <a href="//{{ request.META.HTTP_HOST }}/tickets/">Return</a>
+
+{% endblock %}
