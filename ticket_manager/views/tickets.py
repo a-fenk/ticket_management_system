@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponseForbidden
 
 from ticket_manager.models import Ticket
+from website.errors import raise_403
 
 
 def tickets(request):
@@ -13,7 +13,7 @@ def tickets(request):
         elif current_user.groups.filter(name='workers').exists():
             tickets = Ticket.objects.filter(worker=current_user)
         else:
-            return HttpResponseForbidden()
+            return raise_403()
 
         context = {
             'tickets': tickets,

@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
-from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 
 from ticket_manager.forms import TicketForm
 from ticket_manager.models import Ticket
+from website.errors import raise_403
 
 
 def edit_ticket(request, id):
@@ -37,4 +37,4 @@ def edit_ticket(request, id):
                 return redirect('ticket', id)
             print(form)
     else:
-        return HttpResponseForbidden()
+        return raise_403()

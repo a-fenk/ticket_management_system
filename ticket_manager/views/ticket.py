@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 
 from ticket_manager.forms import CommentForm
 from ticket_manager.models import Ticket, Comment
+from website.errors import raise_403
 
 
 def ticket(request, id):
@@ -10,7 +11,7 @@ def ticket(request, id):
     current_user = request.user
 
     if not (current_user.groups.filter(name='managers').exists() or current_user == ticket.worker):
-        return HttpResponseForbidden()  # 403 in cases of non-manager or ticket worker login
+        return raise_403()  # 403 in cases of non-manager or ticket worker login
 
     if request.method == 'GET':
         form = CommentForm()
